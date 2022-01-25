@@ -1,6 +1,12 @@
 <?php
+    //Function
+    require_once "./../lib/file_upload.php";
+    require_once "./../lib/form_input.php";
 
+    //Models
     require_once "./../app/models/Auth.php";
+
+
     $action = "";
     if(isset($_POST['action'])) {
         $action = $_POST['action'];
@@ -10,7 +16,36 @@
 
     $auth = new Auth();
 
-    if($action === 'register') {
-        $auth->register([]);
+    if($action == 'register') {
+
+        if(isset($_POST['first_name'])
+            && isset($_POST['last_name'])
+            && isset($_POST['email'])
+            && isset($_POST['password'])
+        ) {
+            $first_name = $_POST['first_name'];
+            $last_name = $_POST['last_name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            $avatar = "";
+            if(strlen(upload($_FILES['avatar'])) > 0) {
+                $avatar = upload($_FILES['avatar']);
+            }
+
+            echo $auth->register([
+                'first_name' => inp($first_name),
+                'last_name' => inp($last_name),
+                'avatar' => $avatar,
+                'email' => inp($email),
+                'password' => inp($password),
+            ]);
+//            exit;
+        }
+
+
+
+
+
+
 
     }

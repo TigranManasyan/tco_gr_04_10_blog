@@ -19,19 +19,31 @@ class Auth {
         $resultUser = $result->fetch_all(MYSQLI_ASSOC);
         $user_id = md5($resultUser[0]['id']);
         $verify_url = "<a href='http://blog.loc/lib/verifyEmail.php?user_id=$user_id&email=$email'>Verify</a>";
-        echo $verify_url;
+        mail($email, "Verify Profile", $verify_url, 'Content-type: text/html; charset=utf8');
 
     }
 
     public function register($data) {
-        if($this->check_email($data['email'])) {
+        if(!$this->check_email($data['email'])) {
             $first_name = $this->db->real_escape_string($data['first_name']);
             $last_name = $this->db->real_escape_string($data['last_name']);
             $avatar = $this->db->real_escape_string($data['avatar']);
             $email = $this->db->real_escape_string($data['email']);
             $password = $this->db->real_escape_string($data['password']);
 
-            $SQL_REGISTER_USER = "INSERT INTO `users` VALUES (null, '$first_name','$last_name','$avatar','$email','$password', 0, NOW()) ";
+            $SQL_REGISTER_USER = "INSERT INTO `users` VALUES (
+                            null, 
+                            '$first_name',
+                            '$last_name',
+                            '$avatar',
+                            0,
+                            0,
+                            '$email',
+                            '$password', 
+                            1, 
+                            NOW()
+                            ) ";
+
             $result_Register = $this->db->query($SQL_REGISTER_USER);
             if($result_Register) {
                 $this->verify_email($email);
@@ -47,6 +59,3 @@ class Auth {
 
     }
 }
-
-$auth = new Auth();
-echo $auth->verify_email("john@mail.ru");

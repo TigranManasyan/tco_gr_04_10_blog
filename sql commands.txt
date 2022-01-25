@@ -1,0 +1,14 @@
+CREATE TABLE users 
+(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(20),
+    last_name VARCHAR(20),
+    avatar VARCHAR(100),
+    verify_at BOOLEAN,
+    status BOOLEAN,
+    email VARCHAR(40) UNIQUE,
+    password VARCHAR(100),
+    role_id INT,
+    created_at TIMESTAMP,
+    FOREIGN KEY(role_id) REFERENCES roles(id) ON DELETE CASCADE
+)
