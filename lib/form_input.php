@@ -1,4 +1,4 @@
 <?php
     function inp($value) {
-        return htmlspecialchars(trim($value));
+        return trim(htmlspecialchars($value));
     }

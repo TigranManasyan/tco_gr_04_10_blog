@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once $_SERVER["DOCUMENT_ROOT"] . "/app/models/Database.php";
 class Auth {
     protected $db;
@@ -52,10 +53,54 @@ class Auth {
     }
 
     public function login($data) {
+//        print_r($data); exit;
+        $email = $this->db->real_escape_string($data['email']);
+        $password = $this->db->real_escape_string($data['password']);
+        $SQL_FOR_LOGIN = "SELECT id, first_name, last_name, email, verify_at, avatar, role_id, created_at FROM `users` WHERE `email` = '$email' AND `password` = '$password'";
+        $result = $this->db->query($SQL_FOR_LOGIN);
+        if($result->num_rows > 0) {
+            $user = $result->fetch_all(MYSQLI_ASSOC)[0];
+            if($user['verify_at'] == 1) {
+                $_SESSION['checked_user'] = $user;
+                if($user['role_id'] == 1) {
+                    header("location:http://blog.loc/views/dashboard/dashboard.php");
+                } else {
+                    header("location:http://blog.loc/views/home.php");
+                }
+            } else {
+                return "Verificatian ancac chi";
+            }
+        } else {
+            return "Incorrect login or password";
+        }
+    }
 
+    public function change_password($data) {
+        $old_password = $this->db->real_escape_string($data['old_password']);
+        $new_password = $this->db->real_escape_string($data['new_password']);
+        $SQL_FOR_SELECT_USER = "SELECT * FROM `users` WHERE `password` = '$old_password'";
+        $result = $this->db->query($SQL_FOR_SELECT_USER);
+        if($result->num_rows > 0) {
+            $result_change_password = $this->db->query("UPDATE `users` SET `password` = '$new_password'");
+            if($result_change_password) {
+                $_SESSION['success_msg'] = 'Password has been changed';
+                if($result->fetch_all(MYSQLI_ASSOC)[0]['role_id'] == 1) {
+                    header("location:http://blog.loc/views/dashboard/dashboard.php");
+                } else {
+                    header("location:http://blog.loc/views/home.php");
+                }
+            }
+        }
     }
 
     public function logout() {
-
+        session_destroy();
+        header("location:http://blog.loc/views/auth/login.php");
     }
 }
+
+$auth = new Auth();
+$auth->change_password([
+    'old_password' => md5(1234),
+    'new_password' => md5(12345)
+]);

@@ -2,6 +2,7 @@
     //Function
     require_once "./../lib/file_upload.php";
     require_once "./../lib/form_input.php";
+    require_once "./../lib/password.php";
 
     //Models
     require_once "./../app/models/Auth.php";
@@ -37,15 +38,16 @@
                 'last_name' => inp($last_name),
                 'avatar' => $avatar,
                 'email' => inp($email),
-                'password' => inp($password),
+                'password' => inp(hash_password($password)),
             ]);
-//            exit;
         }
 
+    } else if($action == 'login') {
 
-
-
-
-
-
+         $auth->login([
+            'email' => inp($_POST['email']),
+            'password' => inp(hash_password($_POST['password']))
+        ]);
+    } else if($action == 'logout') {
+        $auth->logout();
     }
