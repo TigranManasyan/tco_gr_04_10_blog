@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once $_SERVER["DOCUMENT_ROOT"] . "/app/models/Database.php";
 class Auth {
     protected $db;
@@ -60,6 +59,7 @@ class Auth {
         $result = $this->db->query($SQL_FOR_LOGIN);
         if($result->num_rows > 0) {
             $user = $result->fetch_all(MYSQLI_ASSOC)[0];
+//            print_r($user); exit;
             if($user['verify_at'] == 1) {
                 $_SESSION['checked_user'] = $user;
                 if($user['role_id'] == 1) {
@@ -99,8 +99,3 @@ class Auth {
     }
 }
 
-$auth = new Auth();
-$auth->change_password([
-    'old_password' => md5(1234),
-    'new_password' => md5(12345)
-]);

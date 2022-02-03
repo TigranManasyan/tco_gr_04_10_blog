@@ -1,6 +1,5 @@
 <?php
-echo md5(1234);
-session_start();
+
 
 if(isset($_SESSION['success_msg'])) {
     echo $_SESSION['success_msg'];

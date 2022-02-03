@@ -29,6 +29,7 @@
 
                     </a>
                     <ul style="right:0; left:unset" class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link" href="http://blog.loc/views/auth/reset.php">Reset Password</a>
                         <a class="nav-link" href="http://blog.loc/routes/web.php?action=logout">Log Out</a>
                     </ul>
                 </div>
