@@ -27,6 +27,7 @@ if(!isset($_SESSION['checked_user'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-8">
+                <a class="btn btn-primary mt-2 mb-2" href="http://blog.loc/views/posts/new_post.php">Create New Post</a>
                 <h2>Post List</h2>
                 <table class="table">
                     <thead>

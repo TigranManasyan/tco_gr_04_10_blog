@@ -14,10 +14,10 @@
                         </li>
                     <?php endif; ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Posts</a>
+                        <a class="nav-link" href="http://blog.loc/views/posts/all_posts.php">Posts</a>
                     </li>
                     <li class="nav-item">
-
+                        <a class="nav-link" href="http://blog.loc/views/posts/my_posts.php">My  Posts</a>
                     </li>
                 </ul>
                 <div class="user-info d-flex align-items-center">
@@ -30,7 +30,7 @@
                     </a>
                     <ul style="right:0; left:unset" class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="nav-link" href="http://blog.loc/views/auth/reset.php">Reset Password</a>
-                        <a class="nav-link" href="http://blog.loc/routes/web.php?action=logout">Log Out</a>
+                        <a class="nav-link" href="http://blog.loc/routes/web.php?action=logout&user_id=<?= $_SESSION['checked_user']['id'] ?>">Log Out</a>
                     </ul>
                 </div>
 

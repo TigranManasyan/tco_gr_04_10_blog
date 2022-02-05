@@ -60,8 +60,37 @@
             'new_password' => inp(hash_password($_POST['new-password']))
         ]);
     } else if($action == 'logout') {
-        $auth->logout();
+        $auth->logout($_GET['user_id']);
     } else if($action == 'all-posts') {
 //        echo 1; exit;
        echo $post->index();
+    } else if($action == 'forgot') {
+        $auth->forgot_password($_POST['email']);
+    } else if($action == 'new-post') {
+        $title = $_POST['title'];
+        $content = $_POST['content'];
+        $user_id = $_POST['user_id'];
+        echo $post->store([
+            'title' => inp($title),
+            'content' => inp($content),
+            'user_id' => inp($user_id)
+        ]);
+    } else if($action == 'edit-post') {
+//        echo $_GET['post_id']; exit;
+        echo $post->edit($_GET['post_id']);
+    } else if($action == 'update-post') {
+        $title = $_POST['title'];
+//        echo $title;
+        $content = $_POST['content'];
+        $user_id = $_POST['user_id'];
+        $post_id = $_POST['post_id'];
+        echo $post->update([
+            'title' => inp($title),
+            'content' => inp($content),
+            'user_id' => inp($user_id)
+        ], $_POST['post_id']);
+    } else if($action == 'delete_post') {
+        echo $post->delete_post($_GET['post_id']);
+    } else if($action == 'my-posts') {
+        echo $post->user_post($_GET['user_id']);
     }

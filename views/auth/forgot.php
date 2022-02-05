@@ -33,14 +33,8 @@ if(isset($_SESSION['success_msg'])) {
                     <label for="email" class="form-label">User email</label>
                     <input type="email" name="email" class="form-control" id="email" placeholder="example@mail.ru">
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">User Password</label>
-                    <input type="password" name="password" class="form-control" id="password" placeholder=".....">
-                </div>
-
-                <button name="action" value="login" class="btn btn-primary">Login</button>
-                <a href="http://blog.loc/views/auth/register.php">Create account</a>
-                <a href="http://blog.loc/views/auth/forgot.php">Forgot password?</a>
+                <button name="action" value="forgot" class="btn btn-primary">Send</button>
+                <a href="http://blog.loc/views/auth/login.php">Back to login page</a>
             </div>
         </div>
         <div class="col-md-4"></div>

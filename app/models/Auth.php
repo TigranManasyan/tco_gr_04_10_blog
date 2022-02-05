@@ -59,6 +59,7 @@ class Auth {
         $result = $this->db->query($SQL_FOR_LOGIN);
         if($result->num_rows > 0) {
             $user = $result->fetch_all(MYSQLI_ASSOC)[0];
+            $this->db->query("UPDATE `users` SET `status` = 1 WHERE `email` = '$email'");
 //            print_r($user); exit;
             if($user['verify_at'] == 1) {
                 $_SESSION['checked_user'] = $user;
@@ -93,7 +94,26 @@ class Auth {
         }
     }
 
-    public function logout() {
+    public function forgot_password($email) {
+        $fake_password = "blog_" . time() . "_" . rand(1,10);
+
+        $SQL_FOR_FORGOT = "UPDATE `users` SET `password` = md5('$fake_password') WHERE `email` = '$email'";
+        $result = $this->db->query($SQL_FOR_FORGOT);
+        $msg = "<div>
+                    <h2>Forgot Password</h2>
+                    <p>Your fake password: $fake_password</p>
+                    <p>Please change your password for security.</p>
+                    <p><a href='http://blog.loc/views/auth/login.php'>Got to Login page</a></p>
+                </div>";
+        $send_email = mail($email, "Forgot Password", $msg, 'Content-type: text/html; charset=utf8');
+        if($send_email) {
+            $_SESSION['success_msg'] = "Check your email please!";
+            header("location:http://blog.loc/views/auth/login.php");
+        }
+    }
+
+    public function logout($id) {
+        $this->db->query("UPDATE `users` SET `status` = 0 WHERE `id` = '$id'");
         session_destroy();
         header("location:http://blog.loc/views/auth/login.php");
     }
